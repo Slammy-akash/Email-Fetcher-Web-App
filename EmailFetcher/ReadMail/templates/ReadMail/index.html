@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Email Fetcher Link</title>
+</head>
+
+<body>
+<div class="sticky-top"><nav class="navbar navbar-dark bg-dark justify-content-end">
+    <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle mx-2" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    Welcome {{request.user}}
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item" href="logout">Logout</a></li>
+  </ul>
+</div>
+
+</nav></div>
+    <div class="row me-1">
+        <div class="col-md-2 border">
+            <form method="POST" action="/ReadMail/">{% csrf_token %}
+                <label class="mb-3 my-3">
+                    <h4>Email Fetcher</h4>
+                </label>
+                <div class="mx-2">
+                    <label class="mb-2">Select ISP</label><br>
+                    <div class="input-group mb-3">
+                        <select name="ispName" class="form-select" id="ispList" required="true">
+                            <option value="Hotmail">Hotmail</option>
+                            <option value="Aol">AOL</option>
+                            <option value="Yahoo">Yahoo</option>
+                            <option value="Gmail">Gmail</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" name="email" id="email" required="true" placeholder="name@example.com">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" required="true" id="password" placeholder="*********">
+                    </div>
+                    <label class="mb-2">Select Folder</label><br>
+                    <div class="input-group mb-3">
+                        <select name="folderName" class="form-select" required="true" id="folderName">
+                            <option value="Inbox">Inbox</option>
+                            <option value="Junk">Junk/Spam</option>
+                            <option value="Sent">Sent</option>
+                            <option value="Archive">Archive</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="countOfMail" class="form-label">Count of mail</label>
+                        <input type="tel" class="form-control" name="countOfMail" id="countOfMail" placeholder="0">
+                    </div>
+                    <!-- <label class="mb-2">Select Field</label><br> -->
+                    <!-- <div class="input-group mb-3">
+                        <select name="field" class="form-select" id="field" required="true">
+                            <option value="Subject">Subject</option>
+                            <option value="From">From</option>
+                            <option value="X-Message-Delivery">X-Message-Delivery</option>
+                            <option value="X-Message-Info">X-Message-Info</option>
+                        </select>
+                    </div> -->
+
+                    <div class="mb-3">
+                        <label for="field" class="form-label">Enter Fields</label>
+                        <textarea class="form-control" name="field" id="field" rows="5"required="true"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Fetch Mail</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-10 border">
+            {% if "error_msg" in error %}
+            <div class="alert alert-danger my-3" role="alert">{{errorMessage}}</div>
+            {% endif %}
+            <div class="container my-3">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sr.No.</th>
+                            <th scope="col">Foldername</th>
+                            <th scope="col">{{fieldname|default:"Subject"}}</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key1, val1 in data.items %}
+                        <tr>
+                            <th scope="row">{{key1}}</th>
+                            <td>{{foldername}}</td>
+                            <td>{{val1}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript; choose one of the two! -->
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+    -->
+</body>
+
+</html>
